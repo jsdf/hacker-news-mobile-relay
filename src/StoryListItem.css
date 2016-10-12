@@ -1,0 +1,90 @@
+.StoryListItem_flexContainer {
+  display: flex;
+}
+
+.StoryListItem_flexFill {
+  flex: 1;
+}
+
+.StoryListItem_link {
+  color: black;
+  text-decoration: none;
+}
+
+.StoryListItem_white {
+  background-color: white;
+}
+
+.StoryListItem_textContainer {
+  flex: 1;
+  background-color: white;
+}
+
+.StoryListItem_icon {
+  width: 32px;
+  height: 32px;
+}
+
+.StoryListItem_storyCell {
+  flex: 1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 8px;
+}
+
+.StoryListItem_storyTitle {
+  font-size: 18px;
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+
+.StoryListItem_storyTitleText {
+  font-weight: 700;
+}
+
+.StoryListItem_storyTime {
+  color: #999999;
+  font-size: 12px;
+}
+
+.StoryListItem_row {
+  align-items: center;
+  background-color: white;
+  flex-direction: row;
+}
+
+.StoryListItem_itemRow {
+  align-items: stretch;
+  background-color: white;
+}
+
+.StoryListItem_byline {
+  padding: 0;
+}
+
+.StoryListItem_commentsCell {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  padding: 8;
+  text-align: center;
+  width: 80px;
+}
+
+.StoryListItem_number {
+  font-weight: 700;
+}
+
+.StoryListItem_commentsText {
+  font-size: 10px;
+  text-align: center;
+}
+
+.StoryListItem_cellBorder {
+  border-bottom: solid 1px #eee;
+  margin-bottom: 4px;
+}
+

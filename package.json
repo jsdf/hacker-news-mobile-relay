@@ -29,6 +29,7 @@
     "find-cache-dir": "0.1.1",
     "fs-extra": "0.30.0",
     "gzip-size": "3.0.0",
+    "hacker-news-graphql": "file:../hacker-news-graphql/",
     "html-webpack-plugin": "2.22.0",
     "http-proxy-middleware": "0.17.1",
     "jest": "15.1.1",

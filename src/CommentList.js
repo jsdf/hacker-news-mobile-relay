@@ -1,19 +1,23 @@
-var moment = require('moment')
-var React = require('react')
-var styles;
+var moment = require('moment');
+var React = require('react');
+require('./CommentList.css');
 
-var Comment = React.createClass({
-  getInitialState() {
-    return {
+class Comment extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       open: true,
-    }
-  },
-  handleDisclosureClick(e) {
-    this.setState({open: !this.state.open})
-  },
+    };
+  }
+
+  handleDisclosureClick = (e) => {
+    this.setState({open: !this.state.open});
+  };
+
   renderBody(comment) {
     return (
-      <div style={styles.commentBody}>
+      <div className="CommentList_commentBody">
         <div dangerouslySetInnerHTML={{__html:  comment.text}} />
         {
           comment.kids ?
@@ -24,23 +28,25 @@ var Comment = React.createClass({
             null
         }
       </div>
-    )
-  },
-  render() {
-    var {comment} = this.props
-    var {open} = this.state
+    );
+  }
 
-    if (comment == null) return null
+  render() {
+    var {comment} = this.props;
+    var {open} = this.state;
+
+    if (comment == null) return null;
 
     return (
-      <div style={styles.comment}>
+      <div className="CommentList_comment">
         <div onClick={this.handleDisclosureClick}>
-          <div style={{...styles.disclosureRow, ...styles.inline}}>
+          <div className="CommentList_disclosureRow CommentList_inline">
             <img
+              alt={open ? 'hide' : 'show'}
               src={open ? require('./disclosure90.png') : require('./disclosure.png')}
-              style={{...styles.disclosure, ...styles.muted}}
+              className="CommentList_disclosure CommentList_muted"
             />
-            <span style={styles.muted}>
+            <span className="CommentList_muted">
               {' '}
               {moment(comment.time*1000).fromNow()} by {comment.by}
             </span>
@@ -48,61 +54,29 @@ var Comment = React.createClass({
         </div>
         {open ? this.renderBody(comment) : null}
       </div>
-    )
+    );
   }
-})
+}
 
-var CommentList = React.createClass({
-  renderComment(id) {
+class CommentList extends React.Component {
+  renderComment = (id) => {
     return (
       <Comment
         key={id}
         comment={this.props.storyComments[id]}
         storyComments={this.props.storyComments}
       />
-    )
-  },
+    );
+  };
+
   render() {
     return (
       <div>
         {this.props.commentIds.map(this.renderComment)}
       </div>
-    )
+    );
   }
-})
+}
 
-styles = {
-  inline: {
-    flexDirection: 'row',
-  },
-  muted: {
-    opacity: 0.3,
-  },
-  textMuted: {
-    color: '#BBBBBB',
-  },
-  comment: {
-    fontSize: 14,
-    margin: 4,
-    padding: 4,
-  },
-  commentBody: {
-    paddingLeft: 10,
-    borderLeftColor: '#BBBBBB',
-    borderLeftWidth: 1,
-  },
-  disclosure: {
-    verticalAlign: 'middle',
-    width: 14,
-    height: 14,
-    marginLeft: 2,
-    marginRight: 8,
-  },
-  disclosureRow: {
-    paddingLeft: 0,
-    paddingTop: 4,
-    paddingBottom: 4,
-  },
-};
 
-module.exports = CommentList
+module.exports = CommentList;

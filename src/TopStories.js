@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Relay from 'react-relay';
 import StoryListItem from './StoryListItem';
 
@@ -32,11 +32,8 @@ export const TopStoriesContainer = Relay.createContainer(TopStories, {
 });
 
 export class TopStoriesRoute extends Relay.Route {
-  static routeName = 'TopStories';  // A unique name
+  static routeName = 'TopStories';
   static queries = {
-    // Here, we compose your Relay container's
-    // 'topstories' fragment into the 'topstories'
-    // field at the root of the GraphQL schema.
     topstories: (Component) => Relay.QL`
       query TopStoriesQuery {
         topstories {

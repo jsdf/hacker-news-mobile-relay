@@ -1,18 +1,18 @@
-var React = require('react')
+var React = require('react');
 var routerContext = require('./routerContext');
 
-var Link = React.createClass({
-  contextTypes: {
+class Link extends React.Component {
+  static contextTypes = {
     router: routerContext,
-  },
+  };
 
-  onClick(e) {
+  onClick = (e) => {
     e.preventDefault();
     this.context.router.push(
       this.props.to,
       this.props.params,
     );
-  },
+  };
 
   render() {
     const uriPath = this.context.router.getRouteUrl(
@@ -23,12 +23,12 @@ var Link = React.createClass({
     return (
       <a
         href={uriPath}
-        style={this.props.style}
+        className={this.props.className}
         children={this.props.children}
         onClick={this.onClick}
       />
     );
   }
-});
+}
 
 module.exports = Link;

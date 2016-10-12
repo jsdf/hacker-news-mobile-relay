@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import Router from './Router';
 import { TopStoriesContainer, TopStoriesRoute } from './TopStories';
 import { CommentsContainer, CommentsRoute } from './Comments';

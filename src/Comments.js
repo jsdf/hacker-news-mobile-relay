@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Relay from 'react-relay';
 import CommentList from './CommentList';
 import {objectify} from './utils';
@@ -32,7 +32,7 @@ export const CommentsContainer = Relay.createContainer(Comments, {
 });
 
 export class CommentsRoute extends Relay.Route {
-  static routeName = 'Comments';  // A unique name
+  static routeName = 'Comments';
   static paramDefinitions = {
     id: {required: true},
   };
