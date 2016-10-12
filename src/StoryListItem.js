@@ -1,8 +1,8 @@
-var moment = require('moment');
-var React = require('react');
+const moment = require('moment');
+const React = require('react');
 
-var Link = require('./Link');
-var Badge = require('./Badge');
+const Link = require('./Link');
+const Badge = require('./Badge');
 require('./StoryListItem.css');
 
 class StoryListItem extends React.Component {
@@ -50,10 +50,10 @@ class StoryListItem extends React.Component {
   }
 
   renderArticleButton() {
-    var {story} = this.props
+    const {story} = this.props;
 
     return (
-      <div className="StoryListItem_textContainer">
+      <div className="StoryListItem_flexRow">
         <div className="StoryListItem_storyCell">
           {this.renderTitle(story)}
           {this.renderByline(story)}
@@ -63,7 +63,7 @@ class StoryListItem extends React.Component {
   }
 
   renderCommentsButton() {
-    var {story} = this.props
+    const {story} = this.props;
 
     return (
       <div className="StoryListItem_commentsCell">
@@ -87,14 +87,9 @@ class StoryListItem extends React.Component {
 
   render() {
     return (
-      <div className="StoryListItem_flexContainer StoryListItem_white">
-        <div className={
-          'StoryListItem_flexContainer StoryListItem_flexFill ' +
-          'StoryListItem_cellBorder StoryListItem_row StoryListItem_itemRow'
-        }>
-          {this.renderArticleButton()}
-          {this.renderCommentsButton()}
-        </div>
+      <div className="StoryListItem_itemRow">
+        {this.renderArticleButton()}
+        {this.renderCommentsButton()}
       </div>
     );
   }
