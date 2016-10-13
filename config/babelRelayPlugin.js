@@ -1,9 +1,7 @@
-var path = require('path');
-var execSync = require('child_process').execSync;
 var getBabelRelayPlugin = require('babel-relay-plugin');
+var getGraphQLSchema = require('./getGraphQLSchema');
+var relayConfig = require('./relayConfig');
 
-var script = path.resolve(__dirname, '../scripts/printJSONSchema.js');
-var schemaJSON = execSync(script, {maxBuffer: 1024 * 1024});
-var schema = JSON.parse(schemaJSON.toString());
+var schema = getGraphQLSchema(relayConfig.development.graphQLEndpoint);
 
 module.exports = getBabelRelayPlugin(schema.data);

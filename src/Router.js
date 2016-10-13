@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as Relay from 'react-relay';
 import routerContext from './routerContext';
 import RoutesRouter from 'routes';
+import {disjointMerge} from './utils';
 
 function createRoutesRouter(routes) {
   const router = new RoutesRouter();
@@ -21,10 +22,15 @@ export default class RelayRouterComponent extends Component {
 
     this.router = createRoutesRouter(this.props.routes);
 
+    let initialLocation = null;
+    this.props.history.listen(location => {
+      initialLocation = location;
+    })();
+
     const {
       routeName,
       routeParams,
-    } = this.matchCurrentLocation();
+    } = this.matchCurrentLocation(initialLocation);
 
     this.state = {
       routeName,
@@ -37,13 +43,9 @@ export default class RelayRouterComponent extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('popstate', () => {
-      this.setState(this.matchCurrentLocation());
+    this.props.history.listen(location => {
+      this.setState(this.matchCurrentLocation(location));
     });
-  }
-
-  componentDidUpdate() {
-
   }
 
   getChildContext() {
@@ -67,17 +69,17 @@ export default class RelayRouterComponent extends Component {
     return routeUrl;
   }
 
-  matchCurrentLocation() {
-    const match = this.router.match(location.pathname + location.search);
+  matchCurrentLocation(location) {
+    const match = this.router.match(location.pathname);
 
     if (match) {
       const routeData = match.fn; // I lied, it's not really a function
       return {
         routeName: routeData.name,
-        routeParams: match.params,
+        routeParams: disjointMerge(match.params, location.query),
       };
     } else {
-      throw new Error(`No route matching ${location.pathname + location.search}`);
+      throw new Error(`No route matching ${location.pathname}`);
     }
   }
 
@@ -90,19 +92,16 @@ export default class RelayRouterComponent extends Component {
     const routeUrl = this.getRouteUrl(routeName, routeParams);
 
     if (replace) {
-      history.replaceState(
-        nextState,
-        null,
+      this.props.history.replace(
         routeUrl,
+        nextState,
       );
     } else {
-      history.pushState(
-        nextState,
-        null,
+      this.props.history.push(
         routeUrl,
+        nextState,
       );
     }
-    this.setState(nextState);
   }
 
   push(routeName, routeParams) {
@@ -114,9 +113,7 @@ export default class RelayRouterComponent extends Component {
   }
 
   go(n) {
-    history.go(n);
-    const nextState = history.state;
-    this.setState(nextState);
+    this.props.history.go(n);
   }
 
   getState() {
@@ -140,6 +137,7 @@ export default class RelayRouterComponent extends Component {
         Component={Component}
         route={new Route(this.state.routeParams)}
         onReadyStateChange={this.onReadyStateChange}
+        renderLoading={() => <div></div>}
       />
     );
   }

@@ -8,7 +8,11 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
-var getGraphQLSchemaVersion = require('./getGraphQLSchemaVersion');
+var getGraphQLSchema = require('./getGraphQLSchema');
+var digest = require('./digest');
+var relayConfig = require('./relayConfig');
+
+var graphQLSchema = getGraphQLSchema(relayConfig.development.graphQLEndpoint);
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -100,7 +104,7 @@ module.exports = {
         include: paths.appSrc,
         loader: 'babel',
         query: {
-          cacheIdentifier: getGraphQLSchemaVersion(),
+          cacheIdentifier: digest(JSON.stringify(graphQLSchema)),
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/react-scripts/
           // directory for faster rebuilds. We use findCacheDir() because of:

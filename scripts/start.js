@@ -6,12 +6,12 @@ process.env.NODE_ENV = 'development';
 // https://github.com/motdotla/dotenv
 require('dotenv').config({silent: true});
 
+var url = require('url');
 var chalk = require('chalk');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
 var httpProxyMiddleware = require('http-proxy-middleware');
-var hnGraphQLMiddleware = require('hacker-news-graphql/hnGraphQLMiddleware');
 var detect = require('detect-port');
 var clearConsole = require('react-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
@@ -137,10 +137,12 @@ function onProxyError(proxy) {
 }
 
 function addMiddleware(devServer) {
-  devServer.use('/graphql', hnGraphQLMiddleware);
   // `proxy` lets you to specify a fallback server during development.
   // Every unrecognized request will be forwarded to it.
   var proxy = require(paths.appPackageJson).proxy;
+  var graphQLEndpoint = require('../config/relayConfig').development.graphQLEndpoint;
+  var graphQLEndpointUrl = url.parse(graphQLEndpoint);
+  proxy = proxy || graphQLEndpointUrl.protocol + '//' + graphQLEndpointUrl.host;
   devServer.use(historyApiFallback({
     // Paths with dots should still use the history fallback.
     // See https://github.com/facebookincubator/create-react-app/issues/387.
